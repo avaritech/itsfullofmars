@@ -56,7 +56,8 @@ function GetPhotos($roverName,$dateList){ #$roverName is a string, $dates is col
                 $fileName = "$($roverName.name).$($individualDateStr).$($source.img_src.split("/")[-1])" #here we generate a unique file name using the rover name, date, and original name of the file. 
                 #It tokenizes that URL, accessing -1 array obj is the last object which should be all after the last '/', which will be our file name
                 #if we need to split it later, we can just split with the dots for easy parsing
-                Invoke-WebRequest -uri "$($source.img_src)" -OutFile "$($outputDir)\$($fileName)" 
+                try{Invoke-WebRequest -uri "$($source.img_src)" -OutFile "$($outputDir)\$($fileName)" }
+                catch [Exception]{HandleError "$($_.Exception.Message) continuing" $false}
                 }     
         }
         catch [Exception]{
