@@ -2,7 +2,7 @@
 
 ItsFullOfMars connects to NASA's API to download photos from a given list of dates from each of the Mars rovers,
 then generates an HTML file compiled with each of those files. The HTML file is rewritten each time the script is run.
-
+Image files are also overwritten if queried twice.
 ## Requirements
 
   - Powershell v5 or later
@@ -21,7 +21,7 @@ Download the script and run it with the following command:
 
 ItsFullOfMars.ps1 -inputFile _[inputFileName]_ -outputDir _[outputDirectoryName]_ -**APIKey** _[assignedAPIKeyfromNASA]_
 
-** Bolded arguments _REQUIRED_ **
+Bolded arguments **_REQUIRED**
 
 Default Values
   - _inputFile_ = dates.txt
