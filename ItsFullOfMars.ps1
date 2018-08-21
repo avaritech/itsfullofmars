@@ -23,10 +23,10 @@ function Initialize(){ #we validate that directories exist and that filenames ar
         if((Test-Path $outputDir) -ne $True){mkdir $outputDir}
         if((Test-Path $htmlOutFile) -eq $True){Remove-Item -Path $htmlOutFile}
         New-Item -Path $htmlOutFile #this should be sufficient to check for write access
-    }catch{HandleError "problem with file initialization, check permissions for creating images folder and read/write access under said folder. exiting" $TRUE }
+    }catch{HandleError "problem with initialization. Check key and permissions. exiting" $TRUE }
 }
 
-function GetDates(){
+function GetDates(){ #returns collection of date strings in format YYYY-MM-DD
     $fileContent = get-content $inputFile
     $dateStr = @() #initialize it as a collection not as a single string.
     foreach ($line in $fileContent){
@@ -36,7 +36,7 @@ function GetDates(){
     return $dateStr
 }
 
-function GetRoverList(){
+function GetRoverList(){ #returns collection of rover names
     try{$roverQuery = Invoke-RestMethod -uri "https://api.nasa.gov/mars-photos/api/v1/rovers?api_key=$($APIKey)"}
     catch [Exception]{HandleError "$($_.Exception.Message) exiting" $TRUE}
     $roverNames = $roverQuery.rovers | Select-Object name
@@ -67,18 +67,21 @@ function GetPhotos($roverName,$dateList){ #$roverName is a string, $dates is col
 
 function HandleError($errorInfo,$boolExit){
     Write-error($errorInfo) #here we could integrate with slack, log to event log, send an email etc.
-    if($boolExit -eq $TRUE){exit}
+    if($boolExit -eq $TRUE){throw "terminating error";exit}
 }
 
-Initialize
-$dates = GetDates
-$headers = Invoke-WebRequest -uri "https://api.nasa.gov/mars-photos/api/v1/rovers?api_key=$($APIKey)"
-$requestsRemaining = $headers.Headers.'X-RateLimit-Remaining'
-Write-Output "You've got $requestsRemaining API requests remaining. If this script runs to completion, you are expected to use $($dates.count * 3 + 2) requests. NASA API requests reset hourly"
-$rovers = GetRoverList #list of names of rovers available
-foreach($rover in $rovers){
-    GetPhotos $rover $dates
-}
+function Invoke-ThePodBayDoorsHAL{
+    Initialize
+    $dates = GetDates
+    $headers = Invoke-WebRequest -uri "https://api.nasa.gov/mars-photos/api/v1/rovers?api_key=$($APIKey)"
+    $requestsRemaining = $headers.Headers.'X-RateLimit-Remaining'
+    Write-Output "You've got $requestsRemaining API requests remaining. If this script runs to completion, you are expected to use $($dates.count * 3 + 2) requests. NASA API requests reset hourly"
+    $rovers = GetRoverList #list of names of rovers available
+    foreach($rover in $rovers){
+        GetPhotos $rover $dates
+    }
 
-try{Start-Process $htmlOutFile} #opens up html file in default browser. Last step
-catch{HandleError "I'm afraid we can't start the browser " $false}
+    try{Start-Process $htmlOutFile} #opens up html file in default browser. Last step
+    catch{HandleError "I'm afraid we can't start the browser " $false}
+}
+Invoke-ThePodBayDoorsHAL

@@ -21,11 +21,11 @@ Download the script and run it with the following command:
 
 ItsFullOfMars.ps1 -inputFile _[inputFileName]_ -outputDir _[outputDirectoryName]_ -**APIKey** _[assignedAPIKeyfromNASA]_
 
-Bolded arguments **_REQUIRED**
+Bolded arguments **REQUIRED**
 
 Default Values
-  - _inputFile_ = dates.txt
-  - _outputDir_ = images
+  - _inputFile_ = "dates.txt"
+  - _outputDir_ = "images"
 
 
 _Note: a sample dates.txt file is included in this repository to show formatting and error handling of an invalid date_
