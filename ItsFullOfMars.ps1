@@ -4,24 +4,15 @@
  param(
  [string]$inputFile = "dates.txt",
  [string]$outputDir = "images",
- [string]$APIKey = $null,
+ [string]$APIKey = "Lho58WQQCuheR3UcNMR7SupuBtveprwzEZK2L3fT",
  [string]$htmlOutFile = ".\images\PhotoList.html"
  )
 
-#fixme Unit/Integration Testing/performance testing?
-#fixme docker ?
-#most recent dockerfile on aws server
+#fixme Unit/Integration Testing/performance testing
+
 
 #initializing necessary stuff
 function Initialize(){ #we validate that directories exist and that filenames are accessable. Will error if can't make the directory. Also checks powershell version and alerts for compatability
-
-# Ignore Cert Errors
-#[System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $true } #from Carl, but for some reason, this appears to be what it takes:
-###############################TRUST ALL CERTS###################################
-
-
-
-
     try{
         if($PSVersionTable.PSVersion.Major -lt 5){write-output "You have an older version of powershell than version 5.0 and may experience issues. Script will continue, but continue upgrading"}
         if($inputFile.IndexOfAny([System.IO.Path]::GetInvalidFileNameChars()) -ne -1){HandleError "FILE NAME $inputFile IS NOT VALID, EXITING" $TRUE} #try/catch won't catch these errors so had to handle them this way for the names

@@ -31,3 +31,14 @@ Default Values
 _Note: a sample dates.txt file is included in this repository to show formatting and error handling of an invalid date_
 
 Questions/comments/concerns? contact the author Charles Smith : trey@avari.tech
+
+### _Building and Running in Docker:_
+  docker build -t [buildname] .
+
+  docker run -it [buildname]:latest
+
+  The script will run by default in the container
+
+## KNOWN ISSUES
+  Docker server core image does not get headers for counting the queries remaining, has to do with invoke-webrequest
+  Docker server core image also does not have a browser to open the generated HTML file
