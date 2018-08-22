@@ -4,16 +4,24 @@
  param(
  [string]$inputFile = "dates.txt",
  [string]$outputDir = "images",
- [string]$APIKey = $null
+ [string]$APIKey = $null,
+ [string]$htmlOutFile = ".\images\PhotoList.html"
  )
- $htmlOutFile = ".\images\PhotoList.html" #you can edit, but in general should be the same file.
 
 #fixme Unit/Integration Testing/performance testing?
 #fixme docker ?
-
+#most recent dockerfile on aws server
 
 #initializing necessary stuff
 function Initialize(){ #we validate that directories exist and that filenames are accessable. Will error if can't make the directory. Also checks powershell version and alerts for compatability
+
+# Ignore Cert Errors
+#[System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $true } #from Carl, but for some reason, this appears to be what it takes:
+###############################TRUST ALL CERTS###################################
+
+
+
+
     try{
         if($PSVersionTable.PSVersion.Major -lt 5){write-output "You have an older version of powershell than version 5.0 and may experience issues. Script will continue, but continue upgrading"}
         if($inputFile.IndexOfAny([System.IO.Path]::GetInvalidFileNameChars()) -ne -1){HandleError "FILE NAME $inputFile IS NOT VALID, EXITING" $TRUE} #try/catch won't catch these errors so had to handle them this way for the names
@@ -44,6 +52,7 @@ function GetRoverList(){ #returns collection of rover names
 }
 
 function GetPhotos($roverName,$dateList){ #$roverName is a string, $dates is collection of strings formatted as [int]$year-[int]$month-[int]$day
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     foreach($individualDateStr in $dateList){ # for each date,
         try{
             $photoQuery = Invoke-RestMethod -uri "https://api.nasa.gov/mars-photos/api/v1/rovers/$($roverName.name)/photos?earth_date=$($individualDateStr)&api_key=$($APIKey)"
