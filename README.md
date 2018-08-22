@@ -40,4 +40,5 @@ Questions/comments/concerns? contact the author Charles Smith : trey@avari.tech
 
 ## KNOWN ISSUES
   Docker server core image does not get headers for counting the queries remaining, has to do with invoke-webrequest
+
   Docker server core image also does not have a browser to open the generated HTML file
