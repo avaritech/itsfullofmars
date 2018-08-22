@@ -1,6 +1,6 @@
-# ItsFullOfMars
+## **ItsFullOfMars**
 
-ItsFullOfMars connects to NASA's API to download photos from a given list of dates from each of the Mars rovers,
+ItsFullOfMars.ps1 connects to NASA's API to download photos from a given list of dates from each of the Mars rovers,
 then generates an HTML file compiled with each of those files. The HTML file is rewritten each time the script is run.
 Image files are also overwritten if queried twice.
 ## Requirements
@@ -19,9 +19,8 @@ Image files are also overwritten if queried twice.
 
 Download the script and run it with the following command:
 
-ItsFullOfMars.ps1 -inputFile _[inputFileName]_ -outputDir _[outputDirectoryName]_ -**APIKey** _[assignedAPIKeyfromNASA]_
+ItsFullOfMars.ps1 -inputFile _[inputFileName]_ -outputDir _[outputDirectoryName]_ -APIKey _[assignedAPIKeyfromNASA]_
 
-Bolded arguments **REQUIRED**
 
 Default Values
   - _inputFile_ = "dates.txt"
@@ -32,7 +31,7 @@ _Note: a sample dates.txt file is included in this repository to show formatting
 
 Questions/comments/concerns? contact the author Charles Smith : trey@avari.tech
 
-### _Building and Running in Docker:_
+### Building and Running in Docker:
   docker build -t [buildname] .
 
   docker run -it [buildname]:latest
