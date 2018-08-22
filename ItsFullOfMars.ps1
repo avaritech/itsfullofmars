@@ -10,7 +10,6 @@
 
 #fixme Unit/Integration Testing/performance testing
 
-
 #initializing necessary stuff
 function Initialize(){ #we validate that directories exist and that filenames are accessable. Will error if can't make the directory. Also checks powershell version and alerts for compatability
     try{
