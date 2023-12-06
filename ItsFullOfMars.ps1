@@ -4,7 +4,7 @@
  param(
  [string]$inputFile = "dates.txt",
  [string]$outputDir = "images",
- [string]$APIKey = "Lho58WQQCuheR3UcNMR7SupuBtveprwzEZK2L3fT",
+ [string]$APIKey = "keyplaceholder",
  [string]$htmlOutFile = ".\images\PhotoList.html"
  )
 

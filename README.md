@@ -32,7 +32,7 @@ _Note: a sample dates.txt file is included in this repository to show formatting
 Questions/comments/concerns? contact the author Charles Smith : trey@avari.tech
 
 ### Building and Running in Docker:
-  docker build -t [buildname] .
+  docker build -t [buildname] --build-arg NASAKEY=_[API key]_ . 
 
   docker run -it [buildname]:latest
 
